@@ -1,52 +1,20 @@
-# Example Voting App
+# Multi-Microservice CI/CD Pipeline with Azure DevOps and AKS
 
-A simple distributed application running across multiple Docker containers.
+![Architecture diagram](architecture.voting application deployment part.png)
 
-## Getting started
+The project is focused on creating CI/CD pipelines for a multi-microservice application using Azure DevOps. The application, developed by the Docker team, was sourced from their GitHub repository. This initiative encompassed setting up essential infrastructure components and ensuring seamless integration and deployment processes.
 
-Download [Docker Desktop](https://www.docker.com/products/docker-desktop) for Mac or Windows. [Docker Compose](https://docs.docker.com/compose) will be automatically installed. On Linux, make sure you have the latest version of [Compose](https://docs.docker.com/compose/install/).
+# Project Overview
+Successfully implemented a CI/CD pipeline using Azure DevOps for a multi-microservice Voting Application.
+The application consists of the following microservices:
 
-This solution uses Python, Node.js, .NET, with Redis for messaging and Postgres for storage.
+- **Vote** (Python)
+- **Result** (Node.js)
+- **Worker** (.NET)
+- **Redis**
+- **Database**
 
-Run in this directory to build and run the app:
-
-```shell
-docker compose up
-```
-
-The `vote` app will be running at [http://localhost:5000](http://localhost:5000), and the `results` will be at [http://localhost:5001](http://localhost:5001).
-
-Alternately, if you want to run it on a [Docker Swarm](https://docs.docker.com/engine/swarm/), first make sure you have a swarm. If you don't, run:
-
-```shell
-docker swarm init
-```
-
-Once you have your swarm, in this directory run:
-
-```shell
-docker stack deploy --compose-file docker-stack.yml vote
-```
-
-## Run the app in Kubernetes
-
-The folder k8s-specifications contains the YAML specifications of the Voting App's services.
-
-Run the following command to create the deployments and services. Note it will create these resources in your current namespace (`default` if you haven't changed it.)
-
-```shell
-kubectl create -f k8s-specifications/
-```
-
-The `vote` web app is then available on port 31000 on each host of the cluster, the `result` web app is available on port 31001.
-
-To remove them, run:
-
-```shell
-kubectl delete -f k8s-specifications/
-```
-
-## Architecture
+# Architecture
 
 ![Architecture diagram](architecture.excalidraw.png)
 
@@ -63,3 +31,64 @@ The voting application only accepts one vote per client browser. It does not reg
 This isn't an example of a properly architected perfectly designed distributed app... it's just a simple
 example of the various types of pieces and languages you might see (queues, persistent data, etc), and how to
 deal with them in Docker at a basic level.
+
+## Steps and Process
+
+### 1. Source Code Migration
+**Task:**
+- Imported the voting app repository from the Docker team's GitHub into Azure DevOps Repos.
+
+### 2. Resource Provisioning
+**Actions:**
+- Created a resource group in the Azure portal to manage all related resources.
+- Set up Azure Container Registry (ACR) to store Docker images.
+
+### 3. Agent Pool Configuration
+**Steps:**
+- Created Azure Virtual Machines (VMs) to act as agents.
+- Added the VMs to the Azure DevOps agent pool.
+- Connected the VMs to Azure DevOps for pipeline execution.
+
+### 4. Pipeline Development
+**Implementation:**
+- Developed CI/CD pipelines for three microservices: Vote, Result, and Worker.
+- Configured pipelines to utilize the added agents for building and deploying the application.
+
+### 5. AKS Cluster Creation
+**Provisioning:**
+- Set up an Azure Kubernetes Service (AKS) cluster for container orchestration.
+- Installed and configured Argo CD within the AKS cluster for continuous deployment.
+
+### 6. Shell Script Development
+**Automation:**
+- Created a shell script to update Kubernetes manifests with new image tags in the Azure repository.
+
+### 7. Argo CD Integration
+**Configuration:**
+- Linked Argo CD to Azure Repos.
+- Set up Argo CD to monitor Kubernetes manifests and deploy updates to the AKS cluster.
+
+## Pipeline Stages
+
+Each pipeline is designed with three essential stages:
+
+### Build Stage
+**Objective:**
+- Build the Docker image for the microservice.
+
+### Push Stage
+**Task:**
+- Push the Docker image to Azure Container Registry (ACR).
+
+### Update Stage
+**Automation:**
+- Run a shell script to update Kubernetes manifests with the new image tags.
+
+---
+
+This robust implementation of CI/CD pipelines with Azure DevOps and Azure Cloud services guarantees efficient and automated deployment and management of the Voting Application's microservices. Utilizing Azure Kubernetes Service (AKS) and Argo CD significantly enhances the deployment process, ensuring continuous delivery and operational efficiency.
+
+## Acknowledgments
+
+Special thanks to Abhishek Veeramalla for the detailed course on "Azure Zero to Hero" and guidance throughout the project, and to Aswani Anitha for recommending this channel.
+
