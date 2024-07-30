@@ -1,6 +1,6 @@
 # Multi-Microservice CI/CD Pipeline with Azure DevOps and AKS
 
-![Architecture diagram](architecture.voting application deployment part.png)
+![Architecture diagram](voting%20application%20deployment%20part.png)
 
 The project is focused on creating CI/CD pipelines for a multi-microservice application using Azure DevOps. The application, developed by the Docker team, was sourced from their GitHub repository. This initiative encompassed setting up essential infrastructure components and ensuring seamless integration and deployment processes.
 
